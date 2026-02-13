@@ -18,7 +18,7 @@
       tags:
         project: RoboShop
         component: "{{ item }}"
-        Environment: "{{ env }}"
+        Environment: "{{ Env }}"
         Name: "{{ item }}-{{ Env }}"
     loop: "{{ instances }}"
     register: "{{ ec2_output }}"
