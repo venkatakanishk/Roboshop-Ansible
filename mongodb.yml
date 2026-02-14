@@ -5,7 +5,7 @@
   - name: Copy mongo repo
     ansible.builtin.copy:
       src: mongo.repo
-      dest: /etc/mongod.conf
+      dest: /etc/yum.repos.d/mongo.repo
 
   - name: Install the latest version of Mongodb
     ansible.builtin.dnf:
