@@ -31,7 +31,7 @@
   - name: Install nodejs dependencies
     community.general.npm:
       path: /app
-  - name: Copy mongo repo
+  - name: Copy service repo
     ansible.builtin.copy:
       src: catalogue.service
       dest: /etc/systemd/system/catalogue.service
@@ -49,4 +49,6 @@
   - name: print the output
     ansible.builtin.debug:
       msg: "{{ catalogue_output }}"
-
+  - name: load the products
+    ansible.builtin.command: mongosh --host "{{ MONGODB_HOST }}" </app/db/master-data.js
+    when: catalogue_output.stdout | int < 0
