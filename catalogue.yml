@@ -44,11 +44,16 @@
       name: mongodb-mongosh
       state: present
   - name: check products loaded
-    ansible.builtin.command: mongosh --host "{{ MONGODB_HOST }}" --quiet  --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
+    ansible.builtin.shell: mongosh --host "{{ MONGODB_HOST }}" --quiet  --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
     register: catalogue_output
   - name: print the output
     ansible.builtin.debug:
       msg: "{{ catalogue_output }}"
   - name: load the products
-    ansible.builtin.command: mongosh --host "{{ MONGODB_HOST }}" </app/db/master-data.js
+    ansible.builtin.shell: mongosh --host "{{ MONGODB_HOST }}" </app/db/master-data.js
     when: catalogue_output.stdout | int < 0
+  - name: start the catalogue
+    ansible.builtin.service:
+      name: catalogue
+      enabled: yes
+      state: restarted
