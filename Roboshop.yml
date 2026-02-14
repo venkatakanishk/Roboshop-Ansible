@@ -1,3 +1,4 @@
+ # ansible-playbook -i localhost,   -e '{"instances":["mongodb","catalogue","redis","user","cart","mysql","shipping","rabbitmq","payment","frontend"]}'  -e action=destroy roboshop.yaml
 - name: Create ec2 instances and route 53 records
   hosts: all
   connection: local
@@ -5,6 +6,8 @@
     sg_id: sg-0bd66f913b1217939
     ami_id: ami-0220d79f3f480ecf5
     Env: dev
+    action: create
+    domain_name: naniops.online
     instances:
     - mongodb
     - catalogue
@@ -22,7 +25,37 @@
         Name: "{{ item }}-{{ Env }}"
     loop: "{{ instances }}"
     register: ec2_output
+    when: action == "create"
   - name: print the output
     ansible.builtin.debug:
       msg: "{{ ec2_output }}"
+    when: action == "create"
 
+
+  - name: create route53 records
+    amazon.aws.route53:
+      state: present
+      zone: "{{ domain_name }}"
+      record: "{{ item.item }}-{{ Env }}.{{ domain_name }}" # mongo-dev.naniops.online
+      type: A
+      ttl: 1
+      value: "{{ item.instances[0].private_ip_address }}"
+      wait: true
+      loop: "{{ ec2_output.results }}"
+      when: action == "create"
+
+  - name: create route53 records
+    amazon.aws.route53:
+      state: present
+      zone: "{{ domain_name }}"
+      record: "roboshop-{{ Env }}.{{ domain_name }}" # mongo-dev.naniops.online
+      type: A
+      ttl: 1
+      value: "{{ item.instances[0].public_ip_address }}"
+      wait: true
+      loop: "{{ ec2_output.results }}"
+      when:
+        - item.item == "frontend"
+        - action == "create"
+
+    
