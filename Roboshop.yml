@@ -42,8 +42,8 @@
       value: "{{ item.instances[0].private_ip_address }}"
       wait: false
       overwrite: true
-      loop: "{{ ec2_output.results }}"
-      when: action == "create"
+    loop: "{{ ec2_output.results }}"
+    when: action == "create"
 
   - name: create route53 records
     amazon.aws.route53:
@@ -55,8 +55,8 @@
       value: "{{ item.instances[0].public_ip_address }}"
       wait: false
       overwrite: true
-      loop: "{{ ec2_output.results }}"
-      when:
-        - item.item == "frontend"
-        - action == "create"
+    loop: "{{ ec2_output.results }}"
+    when:
+      - item.item == "frontend"
+      - action == "create"
 
