@@ -39,4 +39,14 @@
     ansible.builtin.copy:
       src: mongo.repo
       dest: /etc/yum.repos.d/mongo.repo
-  - name: install 
+  - name: install mongodb-mongosh
+    ansible.builtin.dnf:
+      name: mongodb-mongosh
+      state: present
+  - name: check products loaded
+    anisble.builtin.command: mongosh --host "{{ MONGODB_HOST }}" --quiet  --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
+    register: catalogue.output
+  - name: print the output
+    ansible.builtin.debug:
+      msg: "{{ catalogue.output }}"
+
