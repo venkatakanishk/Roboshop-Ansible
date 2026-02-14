@@ -14,7 +14,7 @@
       system: true
       home: app
       shell: /sbin/nologin
-      commentL: "roboshop system user"
+      comment: "roboshop system user"
   - name: Create a directory if it does not exist
     ansible.builtin.file:
       path: /app
