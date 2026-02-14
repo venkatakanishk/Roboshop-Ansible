@@ -7,17 +7,17 @@
       src: mongo.repo
       dest: /etc/mongod.conf
 
-  - name: Install the latest version of Apache
+  - name: Install the latest version of Mongodb
     ansible.builtin.dnf:
       name: mongodb-org
       state: present
     
   - name: allow connections
     ansible.builtin.replace:
-    path: /etc/mongod.conf
-    regexp: '127.0.0.1'
-    replace: '0.0.0.0'
-    
+      path: /etc/mongod.conf
+      regexp: '127.0.0.1'
+      replace: '0.0.0.0'
+
   - name: Start and enable Mongod
     ansible.builtin.service:
       name: mongod
