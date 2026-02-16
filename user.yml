@@ -29,7 +29,7 @@
       path: /app
       state: directory
 
-  - name: delete user app directory
+  - name: delete user zip file & directory
     ansible.builtin.file:
       path: /tmp/user.zip
       state: absent
