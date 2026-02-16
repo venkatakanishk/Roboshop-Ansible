@@ -21,6 +21,7 @@
     ansible.builtin.file:
       path: /usr/share/nginx/html/
       state: directory
+
   - name: downloading frontend code
     ansible.builtin.get_url:
       url: https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
@@ -36,7 +37,7 @@
     ansible.builtin.file:
       path: /etc/nginx/nginx.conf
       state: absent
-  - name: remove the default content
+  - name: replace nginx configuration file
     ansible.builtin.template:
       src: nginx.conf
       dest: /etc/nginx/nginx.conf
