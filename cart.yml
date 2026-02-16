@@ -28,10 +28,22 @@
       path: /app
       state: directory
 
+  - name: delete cart app directory
+    ansible.builtin.file:
+      path: /tmp/cart.zip
+      state: absent
+
   - name: downloading cart code
     ansible.builtin.get_url:
       url: https://roboshop-artifacts.s3.amazonaws.com/cart-v3.zip
       dest: /tmp/cart.zip
+  
+
+  - name: unzipping cart code
+    ansible.builtin.unarchive:
+      src: /tmp/cart.zip
+      dest: /app
+      remote_src: yes
 
   - name: installing nodejs dependencies
     community.general.npm:
