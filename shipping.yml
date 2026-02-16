@@ -69,7 +69,7 @@
     community.mysql.mysql_db:
       state: import
       name: all
-      login_Host: "{{ MYSQL_HOST }}"
+      login_host: "{{ MYSQL_HOST }}"
       login_user: root
       login_password: RoboShop@1
       target: "{{ item }}"
