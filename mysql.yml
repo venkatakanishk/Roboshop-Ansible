@@ -1,5 +1,5 @@
 - name: configuring mysql
-  hosts: all
+  hosts: mysql
   become: yes
   tasks:
   - name:  install mysql-server
@@ -8,7 +8,7 @@
       state: present
   - name: Enabling and starting Mysqld
     ansible.builtin.service:
-      name: Mysqld
+      name: mysqld
       enabled: yes
       state: started
   - name: setting root password for mysql
