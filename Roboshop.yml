@@ -65,7 +65,7 @@
     amazon.aws.route53:
       state: absent
       zone: "{{ domain_name }}"
-      record: "{{ item }}-{{ env }}.{{ domain_name }}" # roboshop-dev.daws88s.online
+      record: "{{ item }}-{{ Env }}.{{ domain_name }}" # roboshop-dev.daws88s.online
       type: A
       ttl: 1
     loop: "{{ instances }}"
@@ -74,7 +74,7 @@
   - name: delete ec2 instance
     amazon.aws.ec2_instance:
       state: absent
-      name: "{{ item }}-{{ env }}"
+      name: "{{ item }}-{{ ENV }}""
       wait: false
     loop: "{{ instances }}"
     when: action == "destroy"
