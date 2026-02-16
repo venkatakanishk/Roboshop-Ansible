@@ -29,8 +29,9 @@
   - name: unzipping frontend code
     ansible.builtin.unarchive:
       src: /tmp/frontend.zip
-      dest: /app
+      dest: /usr/share/nginx/html
       remote_src: yes
+
   - name: remove the default content
     ansible.builtin.file:
       path: /etc/nginx/nginx.conf
