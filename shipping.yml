@@ -65,6 +65,14 @@
       name: shipping
       enabled: yes
       state: restarted
+  - name: install dependencie
+    ansible.builtin.pip:
+      name: "{{ item }}"
+      executable: pip3.9
+    loop:
+    - cryptography
+    - PyMySQL
+
   - name: loading shipping data base
     community.mysql.mysql_db:
       state: import
