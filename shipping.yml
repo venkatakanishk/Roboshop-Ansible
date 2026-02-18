@@ -10,7 +10,6 @@
     - maven
     - mysql
 
- 
   - name: configure user roboshop
     ansible.builtin.user:
       name: roboshop
@@ -45,26 +44,32 @@
       src: /tmp/shipping.zip
       dest: /app
       remote_src: yes
+
   - name: installing dependencies
     ansible.builtin.command: mvn clean package
     args:
       chdir: /app
+
   - name: moving jar file
     ansible.builtin.command: mv target/shipping-1.0.jar shipping.jar
     args:
       chdir: /app
+
   - name: creating shipping service file
     ansible.builtin.template:
       src: shipping.service
       dest: /etc/systemd/system/shipping.service
+
   - name: daemon reload
     ansible.builtin.systemd_service:
       daemon_reexec: true
+
   - name: enable and start shipping
     ansible.builtin.service:
       name: shipping
       enabled: yes
       state: restarted
+
   - name: install dependencie
     ansible.builtin.pip:
       name: "{{ item }}"
