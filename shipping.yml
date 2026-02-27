@@ -90,6 +90,12 @@
     - /app/db/schema.sql
     - /app/db/app-user.sql
     - /app/db/master-data.sql
-        
+
+  - name: enable and start shipping
+    ansible.builtin.service:
+      name: shipping
+      enabled: yes
+      state: restarted
+      
 
 
